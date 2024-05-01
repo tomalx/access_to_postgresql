@@ -46,5 +46,16 @@ lcwip_cycling_routes <- st_read(connec,query = "SELECT * FROM weca.lcwip_cycling
 #### query bus gps data from prospective ####
 congestion <- st_read(connec,query = "SELECT * FROM prospective.congestion FETCH FIRST 20 ROWS ONLY")
 congestion_data_periods <- st_read(connec, query = "SELECT DISTINCT data_period FROM prospective.congestion")
+route_7_pros <- st_read(connec,query = "SELECT * FROM prospective.route_7 FETCH FIRST 500 ROWS ONLY")
 
+# sql query (using glue package for syntax formatting)
+sql <- glue_sql( "SELECT * FROM prospective.congestion ",
+                 "WHERE bounding_start_stop IN ({route_40s_stops*}) ",
+                 "AND bounding_end_stop IN ({route_40s_stops*}) ",
+                 "AND data_period = '2023 Oct - 2023 Dec' ",
+                 #"AND hour_of_day = '08:00:00' " ,
+                 #"FETCH FIRST 200 ROWS ONLY", 
+                 .con = connec)
+# fetch data
+route_40s_pros_route <- st_read(connec, query = sql)
 
