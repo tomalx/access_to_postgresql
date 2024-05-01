@@ -10,7 +10,7 @@ setwd("C:\\Users\\tom.alexander1\\OneDrive - West Of England Combined Authority\
 
 if(!exists("connec")) {
   # source the connect_postgreSQL.R script
-  source("postgreSQL\\connect_postgreSQL.R")
+  source("C:\\Users\\tom.alexander1\\OneDrive - West Of England Combined Authority\\Transport\\7.0 Data\\Rscripts\\access_postgresql\\access_to_postgresql\\connect_postgreSQL.R")
   }
 
 # List all of the schemas in the database
@@ -42,5 +42,9 @@ lcwip_cycling_routes <- st_read(connec,query = "SELECT * FROM weca.lcwip_cycling
 #   leaflet::addPolygons(data = cycle_poly, color = "red", weight = 2, opacity = 1, fillOpacity = 0.2) %>% 
 #   leaflet::addPolylines(data = cycle_lines, color = "blue", weight = 2, opacity = 1) %>% 
 #   leaflet::addLegend("bottomright", colors = c("red","blue"), labels = c("poly","lines"), title = "Legend")
+
+#### query bus gps data from prospective ####
+congestion <- st_read(connec,query = "SELECT * FROM prospective.congestion FETCH FIRST 20 ROWS ONLY")
+congestion_data_periods <- st_read(connec, query = "SELECT DISTINCT data_period FROM prospective.congestion")
 
 
